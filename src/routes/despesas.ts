@@ -1,16 +1,16 @@
-import { InquilinoService } from "../service/inquilinos";
+import { DespesaService } from "../service/despesas";
 import { Request, Response } from "express";
 import { ModelBaseRoute } from "./base";
 
-export class InquilinoRoute extends ModelBaseRoute {
+export class DespesaRoute extends ModelBaseRoute {
 
-    static service: InquilinoService;
+    static service: DespesaService;
 
 
     static async getAll(req: Request, res: Response, next: Function): Promise<void> {
         try {
             res.status(200);
-            res.json(await InquilinoRoute.service.getAll());
+            res.json(await DespesaRoute.service.getAll(req.query));
         }
         catch (error) {
             console.log(error);
@@ -24,11 +24,11 @@ export class InquilinoRoute extends ModelBaseRoute {
     static async getOne(req: Request, res: Response, next: Function): Promise<void> {
         try {
             const id = Number(req.params.id);
-            const conta = await InquilinoRoute.service.getOne(id);
+            const conta = await DespesaRoute.service.getOne(id);
 
             if (conta !== undefined) {
                 res.status(200);
-                res.json(await InquilinoRoute.service.getOne(id));
+                res.json(await DespesaRoute.service.getOne(id));
             }
             else {
                 res.status(404);
@@ -49,7 +49,7 @@ export class InquilinoRoute extends ModelBaseRoute {
         try {
 
             const requestBody = req.body;
-            const conta = await InquilinoRoute.service.create(requestBody); 
+            const conta = await DespesaRoute.service.create(requestBody); 
 
             if (conta !== undefined) {
                 res.status(201);
@@ -58,6 +58,32 @@ export class InquilinoRoute extends ModelBaseRoute {
             else {
                 res.status(422);
                 res.json({message: 'Wrong fields. Please, review your request!'});
+            }
+
+        }
+        catch (error) {
+            console.log(error);
+
+            res.status(500);
+            res.json({message: 'Internal server error'});
+        }        
+    }
+
+
+    static async update(req: Request, res: Response, next: Function): Promise<void> {
+        try {
+            const id = Number(req.params.id);
+            const newFields = req.body;
+
+            const conta = await DespesaRoute.service.update(id, newFields);
+
+            if (conta !== undefined) {
+                res.status(200);
+                res.json(conta);
+            }
+            else {
+                res.status(404);
+                res.json({message: 'Conta not found'});
             }
 
         }

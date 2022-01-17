@@ -16,7 +16,7 @@ export class Inquilino {
     sexo: string
 
     @Column()
-    telefone: number
+    telefone: string
 
     @Column()
     email: string

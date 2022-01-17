@@ -3,7 +3,7 @@ import { BaseService } from "./base";
 import { Inquilino } from "../models/inquilinos";
 
 
-export class DespesaService implements BaseService {
+export class InquilinoService implements BaseService {
 
     connection: Connection;
     repository: Repository<Inquilino>;

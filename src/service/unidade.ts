@@ -3,7 +3,7 @@ import { BaseService } from "./base";
 import { Unidade } from "../models/unidades";
 
 
-export class DespesaService implements BaseService {
+export class UnidadeService implements BaseService {
 
     connection: Connection;
     repository: Repository<Unidade>;
