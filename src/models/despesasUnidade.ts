@@ -7,7 +7,7 @@ export class DespesaUnidade {
     id: number
 
     @Column()
-    descrição: string
+    descricao: string
 
     @Column()
     tipo_despesa: string
