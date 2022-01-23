@@ -1,21 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { DespesaUnidade } from "./despesasUnidade";
 
 @Entity('unidades')
 export class Unidade {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    indetificacao: string
+    indetificacao: string;
 
     @Column()
-    proprietario: string
+    proprietario: string;
 
     @Column()
-    condominio: string
+    condominio: string;
 
     @Column()
-    endereco: string
+    endereco: string;
+
+    @OneToMany(type => DespesaUnidade, despesa => despesa.unidade)
+    despesas: DespesaUnidade[];
     
 }

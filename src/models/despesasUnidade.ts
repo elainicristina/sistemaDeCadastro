@@ -1,26 +1,27 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Unidade } from "./unidades";
 
 @Entity('despesas')
 export class DespesaUnidade {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    descricao: string
+    descricao: string;
 
     @Column()
-    tipo_despesa: string
+    tipo_despesa: string;
 
     @Column()
-    valor: number
+    valor: number;
 
     @Column()
-    vencimento: Date
+    vencimento_fatura: Date;
 
     @Column()
-    vencimento_fatura: Date
+    status_pagamento: boolean;
 
-    @Column()
-    status_pagamento: string
+    @ManyToOne(type => Unidade, unidade => unidade.despesas)
+    unidade: Unidade;
 }

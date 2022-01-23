@@ -4,22 +4,21 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 export class Inquilino {
 
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column()
-    nome: string
+    nome: string;
 
     @Column()
-    idade: number
+    idade: number;
 
     @Column()
-    sexo: string
+    sexo: string;
 
     @Column()
-    telefone: string
+    telefone: string;
 
     @Column()
-    email: string
+    email: string;
 
-    
 }

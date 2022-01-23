@@ -1,4 +1,4 @@
-import { Between, Connection, EntityColumnNotFound, Repository } from "typeorm";
+import { Between, Connection, LessThan, Repository } from "typeorm";
 import { BaseService } from "./base";
 import { DespesaUnidade } from "../models/despesasUnidade";
 
@@ -21,19 +21,22 @@ export class DespesaService implements BaseService, DespesaInterface{
     async getAll(queryParameters: any): Promise<DespesaUnidade[] | undefined> {
        
         try {
+            if(queryParameters.unidade) {
+                return await this.repository.find({unidade: queryParameters.unidade});
+            }
+            else if(queryParameters.vencida === 'true') {
+                const today = new Date(Date.now());
 
-            if(queryParameters.dataVencimento && queryParameters.dataPagamento){
                 return await this.repository.find({
-                    vencimento_fatura: Between(queryParameters.dataVencimento, queryParameters.dataPagamento)
+                    vencimento_fatura: LessThan(today.toISOString()),
+                    status_pagamento: false
                 });
             }
-    
-            return await this.repository.find(queryParameters);
-            
-           }
-           catch {
-                console.log("Error in search")
-           }
+            return await this.repository.find();
+        }
+        catch {
+            console.log("Error in search")
+        }
     }
 
     async getOne(id: number): Promise<DespesaUnidade | undefined> {
@@ -43,17 +46,18 @@ export class DespesaService implements BaseService, DespesaInterface{
 
     async create(entity: any): Promise<DespesaUnidade | undefined> {
         let despesas;
+        const have_status_pagamento = entity.status_pagamento !== undefined;
 
-        if (entity.descricao && entity.tipo_despesa && entity.valor  && entity.vencimento
-            && entity.vencimento_fatura  && entity.status_pagamento) {
+        if (entity.descricao && entity.tipo_despesa && entity.valor && entity.vencimento_fatura && entity.unidade && have_status_pagamento) {
 
             despesas = new DespesaUnidade();
 
             despesas.descricao = entity.descricao;
             despesas.tipo_despesa = entity.tipo_despesa;
             despesas.valor = entity.valor;
-            despesas.vencimento = entity.vencimento;
             despesas.vencimento_fatura = entity.vencimento_fatura;
+            despesas.status_pagamento = entity.status_pagamento;
+            despesas.unidade = entity.unidade;
     
             await this.repository.save(despesas);
         }
@@ -69,7 +73,6 @@ export class DespesaService implements BaseService, DespesaInterface{
             if (values.descricao) despesas.descricao = values.descricao;
             if (values.tipo_despesa) despesas.tipo_despesa = values.tipo_despesa;
             if (values.valor) despesas.valor = values.valor;
-            if (values.vencimento) despesas.vencimento = values.vencimento;
             if (values.vencimento_fatura) despesas.vencimento_fatura = values.vencimento_fatura;
 
             await this.repository.save(despesas);
