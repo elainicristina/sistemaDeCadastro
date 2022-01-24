@@ -54,8 +54,7 @@ Dockerfile para facilitar a instalação.
 ```
 
 - Para filtrar por despesa por vencimento da fatura
-
-![Captura de tela de 2022-01-14 21-34-27](https://user-images.githubusercontent.com/81453546/150709021-1a69ec0f-90b8-4820-9222-13fae2a3c781.png)
+![fatura](https://user-images.githubusercontent.com/81453546/150709496-728f84d5-449b-48e4-a075-39f725544bf5.png)
 
 - Para filtrar por unidade, precisa apenas do id da unidade
 
